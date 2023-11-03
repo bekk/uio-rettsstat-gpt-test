@@ -139,7 +139,7 @@ class CustomRetriever(VectorStoreRetriever):
             doc.metadata["har_mindretall"] = (
                 "mindretall" in parent_doc.page_content.lower()
             )
-            doc.metadata["tjenesteyter_følger_ikke"] = (
+            doc.metadata["tjenesteyter_avviser"] = (
                 "tjenesteyter følger ikke vedtaket i saken"
                 in parent_doc.page_content.lower()
             )
@@ -174,7 +174,7 @@ class CustomRetriever(VectorStoreRetriever):
                 - "year": A list of years to include in the filtered list.
                 - "exclude_case": A list of case numbers to exclude from the filtered list.
                 - "har_mindretall": A boolean indicating whether to include only documents with dissenting opinions.
-                - "tjenesteyter_følger_ikke": A boolean indicating whether to include only documents where the service provider does not comply with the decision.
+                - "tjenesteyter_avviser": A boolean indicating whether to include only documents where the service provider does not comply with the decision.
 
         Returns:
             List[Document]: A list of `Document` objects that satisfy the filtering criteria.
@@ -182,7 +182,8 @@ class CustomRetriever(VectorStoreRetriever):
         filtered_docs = []
         for doc in docs:
             doc.metadata["source"] = doc.metadata["source"].split("/")[-1]
-            casetype, year, number = doc.metadata["source"].split(".")[0].split("-")
+            casetype, year, number = doc.metadata["source"].split(".")[
+                0].split("-")
 
             if "casetype" in filter and casetype not in filter["casetype"]:
                 continue
@@ -203,9 +204,9 @@ class CustomRetriever(VectorStoreRetriever):
                 continue
 
             if (
-                "tjenesteyter_følger_ikke" in filter
-                and filter["tjenesteyter_følger_ikke"]
-                != doc.metadata["tjenesteyter_følger_ikke"]
+                "tjenesteyter_avviser" in filter
+                and filter["tjenesteyter_avviser"]
+                != doc.metadata["tjenesteyter_avviser"]
             ):
                 continue
 
