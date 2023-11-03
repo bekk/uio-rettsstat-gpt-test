@@ -125,7 +125,6 @@ class CustomRetriever(VectorStoreRetriever):
         Args:
             docs (List[Document]): The list of `Document` objects to add metadata to.
             parent_docs (List[Document]): The list of parent `Document` objects.
-            scores: The relevance scores for the input `Document` objects.
 
         Returns:
             List[Document]: A list of `Document` objects with added metadata.
