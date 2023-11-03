@@ -1,7 +1,6 @@
 import os
 import config
 import textwrap
-from IPython.display import display, Markdown
 
 
 def wrap_text_preserve_newlines(text, width=110):

@@ -20,7 +20,7 @@ data/<dinDataMappe>
 
 Vectordatabaser kan lages fra data-mappen med uploadDok.py eller legges inn i en mappe: embeddings/.
 
-For å endre hvikle database som brukes endres VECTORDB i test_app. 
+For å endre hvikle database som brukes endres VECTORDB i llm_engine.py. 
 
 ```python
 def load_database(self):
@@ -32,3 +32,4 @@ def load_database(self):
     )
 ```
 Det er viktig alle filer som er brukt i embeddingen til databasen ligger i /data 
+
