@@ -2,3 +2,10 @@
 /vectordb
 /data
 /.env
+/embeddings
+/output
+/QApdf
+
+__pycache__
+
+*.DS_Store
