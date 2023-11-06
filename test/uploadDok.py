@@ -18,8 +18,7 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 def upload():
 
     try:
-        load_status = load_dotenv(find_dotenv())
-        print(load_status)
+        _ = load_dotenv(find_dotenv())
     except Exception as e:
         print(e)
     openai.api_key = os.getenv("OPENAI_API_KEY")
@@ -50,7 +49,6 @@ def upload():
     vectordb = Chroma.from_documents(
         documents=texts, embedding=embeddings, persist_directory=persist_directory
     )
-    print("her")
     vectordb.persist()
 
 
