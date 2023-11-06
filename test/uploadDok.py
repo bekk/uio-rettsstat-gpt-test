@@ -9,11 +9,14 @@ from langchain.text_splitter import CharacterTextSplitter
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.document_loaders import (
     PyPDFLoader,
+    TextLoader,
     DirectoryLoader,
 )
+from langchain.text_splitter import RecursiveCharacterTextSplitter
 
 
 def upload():
+
     try:
         load_status = load_dotenv(find_dotenv())
         print(load_status)
@@ -21,14 +24,22 @@ def upload():
         print(e)
     openai.api_key = os.getenv("OPENAI_API_KEY")
 
-    dir_path = "../data/"
+    DATA_PATH = "data/"
+    TXT_PATH = DATA_PATH + 'txts/'
+    PDF_PATH = DATA_PATH + 'pdfs/'
 
-    loader = DirectoryLoader(dir_path, glob="./*.pdf", loader_cls=PyPDFLoader)
+    # Embedding av text dokumenter
+    loader = DirectoryLoader(TXT_PATH, glob="**/*.txt",
+                             loader_cls=TextLoader, use_multithreading=True)
     documents = loader.load()
 
-    text_splitter = CharacterTextSplitter(
-        chunk_size=config.CHUNK_SIZE, chunk_overlap=config.CHUNK_OVERLAP
-    )
+    # Embedding av pdf dokumenter
+    # loader = DirectoryLoader(PDF_PATH, glob="**/*.pdf", loader_cls=PyPDFLoader)
+    # documents = loader.load()
+
+    text_splitter = RecursiveCharacterTextSplitter.from_tiktoken_encoder(
+        chunk_size=config.CHUNK_SIZE, chunk_overlap=config.CHUNK_OVERLAP)
+
     texts = text_splitter.split_documents(documents)
 
     embeddings = OpenAIEmbeddings(model_kwargs={"device": "mps"})
@@ -39,9 +50,13 @@ def upload():
     vectordb = Chroma.from_documents(
         documents=texts, embedding=embeddings, persist_directory=persist_directory
     )
-
+    print("her")
     vectordb.persist()
 
 
 def main():
     upload()
+
+
+if __name__ == '__main__':
+    main()
