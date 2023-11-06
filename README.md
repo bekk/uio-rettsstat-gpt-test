@@ -33,3 +33,4 @@ def load_database(self):
 ```
 Det er viktig alle filer som er brukt i embeddingen til databasen ligger i /data 
 
+I data/txts ligger tre test filer som er embeddet i embeddings/vectordb
