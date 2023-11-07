@@ -78,12 +78,14 @@ class CustomRetriever(VectorStoreRetriever):
             new_result_docs = []
             # Keep track of which sources have been added to the new list, and what position they have in the new_result_docs.
             added_sources = {}
-            for i, doc in enumerate(result_docs):
+            index = 0
+            for doc in result_docs:
                 if doc.metadata["source"] not in added_sources.keys():
                     doc.metadata["chunk_count"] = 1
                     new_result_docs.append(doc)
 
-                    added_sources[doc.metadata["source"]] = i
+                    added_sources[doc.metadata["source"]] = index
+                    index += 1
                     if len(new_result_docs) == self.max_elements:
                         break
                 else:
