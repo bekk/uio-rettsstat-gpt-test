@@ -46,9 +46,9 @@ class llm_engine:
             vectorstore=database,
             retrieve_type=config.RETRIEVE_TYPE,
             search_type=config.SEARCH_TYPE,
-            max_elements=k,
+            max_elements=k,                 # This is number of documents to return after filtering
             filter=config.FILTER,
-            search_kwargs={"k": k * 10},
+            search_kwargs={"k": k * 10},    # This is number of documents to search through
         )
 
         return retriever
